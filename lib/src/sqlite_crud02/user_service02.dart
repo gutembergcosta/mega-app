@@ -12,16 +12,7 @@ class UserService {
     return await repository.insertData('users', user.toMap());
   }
 
-  listUsers() async {
+  listUser() async {
     return await repository.listData('users');
-  }
-
-  //Edit User
-  updateUser(User02 user) async {
-    return await repository.updateData('users', user.toMap());
-  }
-
-  deleteUser(userId) async {
-    return await repository.delteById('users', userId);
   }
 }

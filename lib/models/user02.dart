@@ -1,17 +1,18 @@
-class User{
-	int? id;
+class User02 {
+  int? id;
   String? nome;
   String? info;
   String? texto;
 
-  User({
+  User02({
     this.id, 
     this.nome, 
     this.info,
     this.texto
   });
 
-   Map<String, Object?> toMap() {
+  // Método para converter um objeto User em um mapa
+  Map<String, Object?> toMap() {
     return {
       'id': id,
       'nome': nome,
@@ -19,6 +20,5 @@ class User{
       'texto': texto,
     };
   }
-
 
 }

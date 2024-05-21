@@ -37,9 +37,9 @@ class Repository {
   }
 
   // update
-  updateData(table,data,id) async {
+  updateData(table,data) async {
     var connection = await database;
-    return await connection?.update(table, data, where: 'id=?', whereArgs: [id]);
+    return await connection?.update(table, data, where: 'id=?', whereArgs: [data['id']]);
   }
 
   // delete

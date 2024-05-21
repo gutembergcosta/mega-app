@@ -7,23 +7,34 @@ var userInfoController = TextEditingController();
 var userTextoController = TextEditingController();
 var userService = UserService();
 
-class AddUser extends StatefulWidget {
-  const AddUser({super.key});
+class EditUser extends StatefulWidget {
+  final User02 user;
+  const EditUser({super.key, required this.user});
 
   @override
-  State<AddUser> createState() => AddUserState();
+  State<EditUser> createState() => EditUserState();
 }
 
-class AddUserState extends State<AddUser> {
+class EditUserState extends State<EditUser> {
   bool validateNome = false;
   bool validateInfo = false;
   bool validateTexto = false;
 
   @override
+  void initState() {
+    setState(() {
+      userNomeController.text = widget.user.nome ?? '';
+      userInfoController.text = widget.user.info ?? '';
+      userTextoController.text = widget.user.texto ?? '';
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Add novo usuário'),
+          title: const Text('Edit usuário'),
         ),
         body: SingleChildScrollView(
           child: Container(
@@ -102,11 +113,12 @@ class AddUserState extends State<AddUser> {
                             validateInfo == false &&
                             validateTexto == false) {
                           final User02 user = User02(
+                            id: widget.user.id,
                             nome: userNomeController.text,
                             info: userInfoController.text,
                             texto: userTextoController.text,
                           );
-                          var result = await userService.addUser(user);
+                          var result = await userService.updateUser(user);
                           Navigator.pop(context, result);
                           clearForm();
 

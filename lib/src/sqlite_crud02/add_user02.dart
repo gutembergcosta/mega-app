@@ -7,14 +7,17 @@ var userInfoController = TextEditingController();
 var userTextoController = TextEditingController();
 var userService = UserService();
 
-class AddUser extends StatefulWidget {
-  const AddUser({super.key});
+class AddUser02 extends StatefulWidget {
+  const AddUser02({super.key});
 
   @override
-  State<AddUser> createState() => AddUserState();
+  State<AddUser02> createState() => AddUser02State();
 }
 
-class AddUserState extends State<AddUser> {
+
+
+class AddUser02State extends State<AddUser02> {
+
   bool validateNome = false;
   bool validateInfo = false;
   bool validateTexto = false;
@@ -107,7 +110,6 @@ class AddUserState extends State<AddUser> {
                             texto: userTextoController.text,
                           );
                           var result = await userService.addUser(user);
-                          Navigator.pop(context, result);
                           clearForm();
 
                           print("result: $result");

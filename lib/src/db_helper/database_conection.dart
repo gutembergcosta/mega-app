@@ -1,13 +1,20 @@
 import 'dart:async';
-import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:flutter/services.dart' show rootBundle;
+
 
 class DataBaseConnection {
+
+  Future<String> loadAsset(String assetPath) async {
+    return await rootBundle.loadString(assetPath);
+  }
+
   Future<Database> setDataBase() async {
-    print('setDataBase')
-    var directory = await getApplicationDocumentsDirectory();
-    var path = join(directory.path, 'db_app');
+    print('setDataBase');
+    var directory = await getDatabasesPath();    
+    print(directory);
+    var path = join(directory,'db_app');
     var database =
         await openDatabase(path, version: 1, onCreate: _createDatabase);
 
