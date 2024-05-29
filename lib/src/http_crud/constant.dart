@@ -5,7 +5,7 @@ const registerURL = "$baseURL/register";
 const logoutURL = "$baseURL/logout";
 const userURL = "$baseURL/user";
 const postURL = "$baseURL/post";
-const itemURL = "$baseURL/item";
+
 
 
 // Erros

@@ -1,84 +1,39 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:mega_app/models/api_response.dart';
-import 'package:mega_app/models/auth.dart';
 import 'package:mega_app/models/item.dart';
 import 'package:http/http.dart' as http;
 import 'package:mega_app/src/http_crud/constant.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:developer' as developer;
+import 'package:mega_app/src/services/auth_service.dart';
 
-Future<ApiResponse> login(Auth auth) async {
-  ApiResponse apiResponse = ApiResponse();
+const baseUrlItem = "$baseURL/item";
 
-  int statusCode = 0;
-
-  try {
-    final response = await http.post(Uri.parse(loginURL), headers: {
-      'Accept': 'application/json'
-    }, body: {
-      'email': auth.email,
-      'password': auth.senha,
-    });
-
-    print('login service - ${response.statusCode}');
-
-    int statusCode = response.statusCode;
-
-    if (statusCode == 200) {
-      apiResponse.success = true;
-      final data = jsonDecode(response.body);
-      final userData = Auth.fromJson(data['userData']);
-      print('userData');
-      print(userData.id);
-      apiResponse.data = userData;
-    }
-
-    if (statusCode == 422) {
-      final errors = jsonDecode(response.body);
-      apiResponse.success = false;
-      apiResponse.error = errors;
-    }
-
-    if (statusCode == 401) {
-      final errors = jsonDecode(response.body);
-      apiResponse.success = false;
-      apiResponse.error = errors['msg'];
-    }
-  } catch (e) {
-    if (statusCode == 500) {
-      apiResponse.data = serverError;
-    }
-  }
-
-  return apiResponse;
-}
-
-Future<ApiResponse> insert(String nome, String info, String texto) async {
+Future<ApiResponse> listItems() async {
   ApiResponse apiResponse = ApiResponse();
 
   try {
-    final response = await http.post(Uri.parse(loginURL), headers: {
-      'Accept': 'application/json'
-    }, body: {
-      'nome': nome,
-      'info': info,
-      'texto': texto,
+    String token = await getUserToken();
+
+    final response = await http.get(Uri.parse("$baseUrlItem/list"), headers: {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
     });
 
-    print(response.statusCode);
+    print("statusCode list: ${response.statusCode}");
+
     switch (response.statusCode) {
       case 200:
-        apiResponse.data = Item.fromJson(jsonDecode(response.body));
+        apiResponse.success = true;
+        apiResponse.data =
+            jsonDecode(response.body).map((p) => Item.fromJson(p)).toList();
+        apiResponse.data as List<dynamic>;
         break;
       case 422:
         final errors = jsonDecode(response.body);
         apiResponse.error = errors;
         break;
       case 401:
-        final errors = jsonDecode(response.body);
-        apiResponse.error = errors;
+        apiResponse.error = 'Unauthorized';
         break;
       default:
         apiResponse.error = erro;
@@ -87,28 +42,73 @@ Future<ApiResponse> insert(String nome, String info, String texto) async {
   } catch (e) {
     apiResponse.error = serverError;
   }
-
   return apiResponse;
 }
 
-Future<ApiResponse> getById(String nome, String info, String texto) async {
+Future<ApiResponse> insertItem(item) async {
+  print('insert item');
   ApiResponse apiResponse = ApiResponse();
 
   try {
-    final response = await http
-        .get(Uri.parse(loginURL), headers: {'Accept': 'application/json'});
+    String token = await getUserToken();
 
-    switch (response.statusCode) {
-      case 200:
-        apiResponse.data = Item.fromJson(jsonDecode(response.body));
-        break;
-      case 422:
-        final errors = jsonDecode(response.body);
-        apiResponse.error = errors;
-        break;
-      default:
-        apiResponse.error = erro;
-        break;
+    final response = await http.post(Uri.parse("$baseUrlItem/save"), headers: {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    }, body: {
+      'nome': item.nome,
+      'info': item.info,
+      'texto': item.texto
+    });
+
+    print("statusCode post: ${response.statusCode}");
+
+    if (response.statusCode == 200) {
+      apiResponse.success = true;
+      apiResponse.data = jsonDecode(response.body);
+      print(apiResponse.data);
+    }
+
+    if (response.statusCode == 422) {
+      final errors = jsonDecode(response.body);
+      apiResponse.success = false;
+      apiResponse.error = errors;
+    }
+  } catch (e) {
+    print('error');
+    apiResponse.error = serverError;
+  }
+
+  return apiResponse;
+}
+
+Future<ApiResponse> updateItem(item) async {
+  ApiResponse apiResponse = ApiResponse();
+
+  try {
+    String token = await getUserToken();
+
+    final response = await http.put(Uri.parse("$baseUrlItem/save/${item.id}"),
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token'
+        },
+        body: {
+          'nome': item.nome,
+          'info': item.info,
+          'texto': item.texto
+        });
+
+    print("statusCode put: ${response.statusCode}");
+    if (response.statusCode == 200) {
+      apiResponse.success = true;
+      apiResponse.data = jsonDecode(response.body);
+    }
+
+    if (response.statusCode == 422) {
+      final errors = jsonDecode(response.body);
+      apiResponse.success = false;
+      apiResponse.error = errors;
     }
   } catch (e) {
     apiResponse.error = serverError;
@@ -117,17 +117,62 @@ Future<ApiResponse> getById(String nome, String info, String texto) async {
   return apiResponse;
 }
 
-Future<String> getUserToken() async {
-  SharedPreferences pref = await SharedPreferences.getInstance();
-  return pref.getString('token') ?? '';
+Future<ApiResponse> deleteItem(id) async {
+  ApiResponse apiResponse = ApiResponse();
+
+  try {
+    String token = await getUserToken();
+
+    final response = await http.delete(Uri.parse("$baseUrlItem/delete/$id"),
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token'
+        });
+
+    print("statusCode delete: ${response.statusCode}");
+    if (response.statusCode == 200) {
+      apiResponse.success = true;
+      apiResponse.data = jsonDecode(response.body);
+
+      print(apiResponse.data);
+    }
+
+    if (response.statusCode == 422) {
+      final errors = jsonDecode(response.body);
+      apiResponse.success = false;
+      apiResponse.error = errors;
+    }
+  } catch (e) {
+    apiResponse.error = serverError;
+  }
+
+  return apiResponse;
 }
 
-Future<int> getUserId() async {
-  SharedPreferences pref = await SharedPreferences.getInstance();
-  return pref.getInt('userId') ?? 0;
-}
+Future<ApiResponse> getItemById(id) async {
+  ApiResponse apiResponse = ApiResponse();
 
-Future<bool> logout() async {
-  SharedPreferences pref = await SharedPreferences.getInstance();
-  return await pref.remove('token');
+  try {
+    String token = await getUserToken();
+
+    final response = await http.get(Uri.parse("$baseUrlItem/$id"), headers: {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    });
+
+    if (response.statusCode == 200) {
+      apiResponse.success = true;
+      apiResponse.data = jsonDecode(response.body);
+    }
+
+    if (response.statusCode == 422) {
+      final errors = jsonDecode(response.body);
+      apiResponse.success = false;
+      apiResponse.error = errors;
+    }
+  } catch (e) {
+    apiResponse.error = serverError;
+  }
+
+  return apiResponse;
 }

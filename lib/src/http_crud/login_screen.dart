@@ -3,11 +3,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:mega_app/models/api_response.dart';
 import 'package:mega_app/models/auth.dart';
-import 'package:mega_app/src/auth/blocos/custom_text_field.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:mega_app/src/config/custom_colors.dart';
-import 'package:mega_app/src/http_crud/home_page.dart';
-import 'package:mega_app/src/services/item_service.dart';
+import 'package:mega_app/src/http_crud/item/list_item.dart';
+import 'package:mega_app/src/services/auth_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 var userEmailController = TextEditingController();
@@ -31,13 +30,14 @@ class LoginScreenState extends State<LoginScreen> {
     SharedPreferences pref = await SharedPreferences.getInstance();
 
     await pref.setString('token', response.token);
-    await pref.setInt('userId', response.userData['id']);
-    await pref.setString('nome', response.userData['nome']);
-    await pref.setString('email', response.userData['email']);
+    await pref.setInt('userId', response.id);
+    await pref.setString('nome', response.nome);
+    await pref.setString('tipo', response.tipo);
+    await pref.setString('email', response.email);
 
     if (!mounted) return;
     Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => const HomePage()),
+        MaterialPageRoute(builder: (context) => const ListItem()),
         (route) => false);
   }
 
@@ -47,9 +47,8 @@ class LoginScreenState extends State<LoginScreen> {
     print(response);
     if (response.success == true) {
       print('sucesso');
-      print(response.data);
 
-      //saveAndRedirectToHome(response);
+      saveAndRedirectToHome(response.data as Auth);
     } else {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(

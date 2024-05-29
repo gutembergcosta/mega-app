@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mega_app/models/item.dart';
 import 'package:mega_app/models/user02.dart';
 import 'package:mega_app/src/services/user_service.dart';
 
@@ -7,15 +8,15 @@ var userInfoController = TextEditingController();
 var userTextoController = TextEditingController();
 var userService = UserService();
 
-class ViewUser extends StatefulWidget {
-  final User02 user;
-  const ViewUser({super.key, required this.user});
+class ViewItem extends StatefulWidget {
+  final Item item;
+  const ViewItem({super.key, required this.item});
 
   @override
-  State<ViewUser> createState() => ViewUserState();
+  State<ViewItem> createState() => ViewItemState();
 }
 
-class ViewUserState extends State<ViewUser> {
+class ViewItemState extends State<ViewItem> {
   bool validateNome = false;
   bool validateInfo = false;
   bool validateTexto = false;
@@ -58,7 +59,7 @@ class ViewUserState extends State<ViewUser> {
                   ),
                 ),
                 Text(
-                  widget.user.nome ?? '',
+                  widget.item.nome ?? '',
                   style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w400),
@@ -81,7 +82,7 @@ class ViewUserState extends State<ViewUser> {
                   ),
                 ),
                 Text(
-                  widget.user.info ?? '',
+                  widget.item.info ?? '',
                   style: const TextStyle(
                     fontSize: 16,
                     color: Color.fromARGB(255, 37, 37, 37),
@@ -106,7 +107,7 @@ class ViewUserState extends State<ViewUser> {
                       fontWeight: FontWeight.w500),
                 ),
                 Text(
-                  widget.user.texto ?? '',
+                  widget.item.texto ?? '',
                   style: const TextStyle(
                       fontSize: 16,
                       color: Color.fromARGB(255, 37, 37, 37),

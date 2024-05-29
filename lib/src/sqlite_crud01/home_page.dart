@@ -47,43 +47,44 @@ class ListUserState extends State<SQLiteScreen> {
 
   deleteFormDialog(BuildContext context, userId) {
     return showDialog(
-        context: context,
-        builder: (param) {
-          return AlertDialog(
-            shape: const RoundedRectangleBorder(borderRadius: 
-                 BorderRadius.all(Radius.circular(2))),
-            title: const Text(
-              'Deseja excluir?',
-              style: TextStyle(color: Colors.black, fontSize: 20),
+      context: context,
+      builder: (param) {
+        return AlertDialog(
+          shape: const RoundedRectangleBorder(borderRadius: 
+                BorderRadius.all(Radius.circular(2))),
+          title: const Text(
+            'Deseja excluir?',
+            style: TextStyle(color: Colors.black, fontSize: 20),
+          ),
+          actions: [
+            TextButton(
+              style: TextButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.red),
+              onPressed: () async {
+                var result = await userService.deleteUser(userId);
+                if (result != null) {
+                  getAllUserDetails();
+                  showSuccessSnackBar(
+                    'Usuário excluído com sucesso'
+                  );
+                }
+              },
+              child: const Text('Deletar')
             ),
-            actions: [
-              TextButton(
-                style: TextButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    backgroundColor: Colors.red),
-                onPressed: () async {
-                  var result = await userService.deleteUser(userId);
-                  if (result != null) {
-                    getAllUserDetails();
-                    showSuccessSnackBar(
-                      'Usuário excluído com sucesso'
-                    );
-                  }
-                },
-                child: const Text('Deletar')
-              ),
-              TextButton(
-                style: TextButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    backgroundColor: Colors.lightBlue.shade900),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text('Cancelar')
-              ),
-            ],
-          );
-        });
+            TextButton(
+              style: TextButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.lightBlue.shade900),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Cancelar')
+            ),
+          ],
+        );
+      }
+    );
   }
 
   @override

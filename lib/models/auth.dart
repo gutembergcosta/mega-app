@@ -2,15 +2,20 @@ import 'dart:ffi';
 
 class Auth {
   String? email;
-  String? senha;
   String? token;
-  Int? id;
+  String? nome;
+  String? tipo;
+  String? senha;
+  int? id;
+
 
   Auth({
     this.email, 
-    this.senha,
     this.token,
     this.id,
+    this.nome,
+    this.tipo,
+    this.senha,
   });
 
   // Método para converter um objeto User em um mapa
@@ -19,16 +24,18 @@ class Auth {
       'id': id,
       'token': token,
       'email': email,
-      'senha': senha
+      'nome': nome,
+      'tipo': tipo,
     };
   }
 
   factory Auth.fromJson(Map<String, dynamic> json) {
     return Auth(
-      id: json['id'],
+      id: json['userData']['id'],
+      email: json['userData']['email'],
+      nome: json['userData']['nome'],
+      tipo: json['userData']['tipo'],
       token: json['token'],
-      email: json['email'],
-      senha: json['senha'],
     );
   }
 }

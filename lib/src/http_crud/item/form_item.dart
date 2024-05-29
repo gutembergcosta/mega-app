@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mega_app/models/user02.dart';
+import 'package:mega_app/models/item.dart';
+import 'package:mega_app/src/services/item_service.dart';
 import 'package:mega_app/src/services/user_service.dart';
 
 var userNomeController = TextEditingController();
@@ -7,23 +8,34 @@ var userInfoController = TextEditingController();
 var userTextoController = TextEditingController();
 var userService = UserService();
 
-class AddUser extends StatefulWidget {
-  const AddUser({super.key});
+class FormItem extends StatefulWidget {
+  final Item? item;
+  const FormItem({super.key, this.item});
 
   @override
-  State<AddUser> createState() => AddUserState();
+  State<FormItem> createState() => FormItemState();
 }
 
-class AddUserState extends State<AddUser> {
+class FormItemState extends State<FormItem> {
   bool validateNome = false;
   bool validateInfo = false;
   bool validateTexto = false;
 
   @override
+  void initState() {
+    setState(() {
+      userNomeController.text = widget.item?.nome ?? '';
+      userInfoController.text = widget.item?.info ?? '';
+      userTextoController.text = widget.item?.texto ?? '';
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Add novo usuário'),
+          title: const Text('Edit usuário'),
         ),
         body: SingleChildScrollView(
           child: Container(
@@ -91,22 +103,20 @@ class AddUserState extends State<AddUser> {
                           foregroundColor: Colors.white),
                       onPressed: () async {
                         setState(() {
-                          validateNome =
-                              userNomeController.text.isEmpty ? true : false;
-                          validateInfo =
-                              userInfoController.text.isEmpty ? true : false;
-                          validateTexto =
-                              userTextoController.text.isEmpty ? true : false;
+                          validateNome = userNomeController.text.isEmpty ? true : false;
+                          validateInfo = userInfoController.text.isEmpty ? true : false;
+                          validateTexto = userTextoController.text.isEmpty ? true : false;
                         });
                         if (validateNome == false &&
                             validateInfo == false &&
                             validateTexto == false) {
-                          final User02 user = User02(
+                          final Item item = Item(
+                            id: widget.item?.id,
                             nome: userNomeController.text,
                             info: userInfoController.text,
                             texto: userTextoController.text,
                           );
-                          var result = await userService.addUser(user);
+                          var result =  (widget.item?.id != null) ? await updateItem(item) : await insertItem(item) ;
                           Navigator.pop(context, result);
                           clearForm();
 
@@ -120,10 +130,10 @@ class AddUserState extends State<AddUser> {
                     ),
                     TextButton(
                       style: TextButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(0)),
-                          backgroundColor: Colors.orange,
-                          foregroundColor: Colors.white),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(0)),
+                        backgroundColor: Colors.orange,
+                        foregroundColor: Colors.white),
                       onPressed: () {
                         clearForm();
                       },
