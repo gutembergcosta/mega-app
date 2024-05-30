@@ -51,7 +51,7 @@ class ListItemState extends State<ListItem> {
     );
   }
 
-  deleteFormDialog(BuildContext context, userId) {
+  deleteFormDialog(BuildContext context, id) {
     return showDialog(
         context: context,
         builder: (param) {
@@ -68,11 +68,12 @@ class ListItemState extends State<ListItem> {
                       foregroundColor: Colors.white,
                       backgroundColor: Colors.red),
                   onPressed: () async {
-                    var result = await userService.deleteUser(userId);
-                    if (result != null) {
+                    var result = await deleteItem(id);
+                    if (result != '') {
                       getAllItems();
                       showSuccessSnackBar('Usuário excluído com sucesso');
                     }
+                    
                   },
                   child: const Text('Deletar')),
               TextButton(
@@ -140,7 +141,7 @@ class ListItemState extends State<ListItem> {
                         ),
                         IconButton(
                           onPressed: () {
-                            deleteFormDialog(context, userList[index].id);
+                            deleteFormDialog(context, item.id);
                           },
                           icon: const Icon(
                             Icons.delete,
