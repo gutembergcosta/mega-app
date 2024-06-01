@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:url_launcher/url_launcher.dart';
-
+import 'dart:async';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,9 +11,53 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
+  double startLngPosition = -4324.99368;
+  List<LatLng> locais = [const LatLng(-19.92365, -4324.99300)];
 
-  int startPosition = 0;
-  List<int> array = [1, 2, 3];
+  List<LatLng> locais01 = [
+    LatLng(-19.92365, -43.9249368),
+    LatLng(-19.924463, -43.922331),
+    LatLng(-19.923546, -43.920617),
+    LatLng(-19.923847, -43.919262),
+    LatLng(-19.922728, -43.918978),
+    //LatLng(-19.922347, -43.920174),
+    //LatLng(-19.922070, -43.921504),
+    //LatLng(-19.921208, -43.921223),
+    //LatLng(-19.920208, -43.921435),
+  ];
+
+  void startAddingPosition(int intervalInSeconds) {
+    Timer.periodic(Duration(seconds: intervalInSeconds), (timer) {
+      setState(() {
+        double newLngPosition = startLngPosition + 0.00137;
+        print("newLngPosition: $newLngPosition");
+        startLngPosition = newLngPosition;
+        var novoLocal = LatLng(-19.92365, newLngPosition);
+        print(novoLocal);
+
+        locais01.add(novoLocal);
+      });
+    });
+  }
+
+  void addingPosition() {
+      var novoLocal = LatLng(-19.920208, -43.921435);
+
+      locais.add(novoLocal);
+      //print(locais);
+
+      //array.add(matriz);
+      //array.add(DateTime.now().millisecondsSinceEpoch);
+      //print(array.length); // Imprime o array para ver os elementos adicionados
+      //print(array); // Imprime o array para ver os elementos adicionados
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    //startAddingPosition(2); // Adiciona um elemento ao array a cada 2 segundos
+    addingPosition();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +72,7 @@ class HomePageState extends State<HomePage> {
               child: FlutterMap(
                 options: const MapOptions(
                   initialCenter: LatLng(-19.920208, -43.921435),
-                  initialZoom: 9.2,
+                  initialZoom: 17,
                   /*
                   interactionOptions: InteractionOptions(
                       flags:  InteractiveFlag.doubleTapDragZoom |
@@ -62,30 +105,7 @@ class HomePageState extends State<HomePage> {
                   PolylineLayer(
                     polylines: [
                       Polyline(
-                        points: const [
-                          LatLng(-19.92365,-43.9249368), 
-                          LatLng(-19.924463, -43.922331), 
-                          LatLng(-19.923546, -43.920617), 
-                          LatLng(-19.923847, -43.919262), 
-                          LatLng(-19.922728, -43.918978), 
-                          LatLng(-19.922347, -43.920174), 
-                          LatLng(-19.922070, -43.921504), 
-                          LatLng(-19.921208, -43.921223), 
-                          LatLng(-19.920208, -43.921435), 
-                        ],
-                        /*
-                        points: const [
-                          LatLng(-19.92365,-43.9249368), 
-                          LatLng(-19.924463, -43.922331), 
-                          LatLng(-19.923546, -43.920617), 
-                          LatLng(-19.923847, -43.919262), 
-                          LatLng(-19.922728, -43.918978), 
-                          LatLng(-19.922347, -43.920174), 
-                          LatLng(-19.922070, -43.921504), 
-                          LatLng(-19.921208, -43.921223), 
-                          LatLng(-19.920208, -43.921435), 
-                        ],
-                        */
+                        points: locais01,
                         color: Colors.red,
                         borderStrokeWidth: 3,
                         borderColor: Colors.red,
@@ -93,7 +113,6 @@ class HomePageState extends State<HomePage> {
                     ],
                   ),
                 ],
-                
               ),
             ),
           ],

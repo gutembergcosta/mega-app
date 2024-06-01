@@ -15,7 +15,8 @@ class AddToArrayState extends State<AddToArray> {
   int startPosition = 0;
   double startLngPosition = -4324.99368;
   List<List<Object>> array = [];
-  var locais = [];
+  List<LatLng> locais = [];
+  //var locais = [];
 
   void addToArray(int intervalInSeconds) {
     Timer.periodic(Duration(seconds: intervalInSeconds), (timer) {
