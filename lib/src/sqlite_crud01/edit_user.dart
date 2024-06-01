@@ -119,7 +119,7 @@ class EditUserState extends State<EditUser> {
                             texto: userTextoController.text,
                           );
                           var result = await userService.updateUser(user);
-                          Navigator.pop(context, result);
+                          if (context.mounted) Navigator.pop(context, result);
                           clearForm();
 
                           print("result: $result");

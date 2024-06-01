@@ -17,6 +17,9 @@ class FormItem extends StatefulWidget {
 }
 
 class FormItemState extends State<FormItem> {
+
+  final itemService = ItemService();
+
   bool validateNome = false;
   bool validateInfo = false;
   bool validateTexto = false;
@@ -116,8 +119,8 @@ class FormItemState extends State<FormItem> {
                             info: userInfoController.text,
                             texto: userTextoController.text,
                           );
-                          var result =  (widget.item?.id != null) ? await updateItem(item) : await insertItem(item) ;
-                          Navigator.pop(context, result);
+                          var result =  (widget.item?.id != null) ? await itemService.update(item) : await itemService.insert(item) ;
+                          if (context.mounted) Navigator.pop(context, result);
                           clearForm();
 
                           print("result: $result");

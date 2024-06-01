@@ -13,6 +13,9 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
 
+  int startPosition = 0;
+  List<int> array = [1, 2, 3];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,7 +62,7 @@ class HomePageState extends State<HomePage> {
                   PolylineLayer(
                     polylines: [
                       Polyline(
-                        points: [
+                        points: const [
                           LatLng(-19.92365,-43.9249368), 
                           LatLng(-19.924463, -43.922331), 
                           LatLng(-19.923546, -43.920617), 
@@ -70,6 +73,19 @@ class HomePageState extends State<HomePage> {
                           LatLng(-19.921208, -43.921223), 
                           LatLng(-19.920208, -43.921435), 
                         ],
+                        /*
+                        points: const [
+                          LatLng(-19.92365,-43.9249368), 
+                          LatLng(-19.924463, -43.922331), 
+                          LatLng(-19.923546, -43.920617), 
+                          LatLng(-19.923847, -43.919262), 
+                          LatLng(-19.922728, -43.918978), 
+                          LatLng(-19.922347, -43.920174), 
+                          LatLng(-19.922070, -43.921504), 
+                          LatLng(-19.921208, -43.921223), 
+                          LatLng(-19.920208, -43.921435), 
+                        ],
+                        */
                         color: Colors.red,
                         borderStrokeWidth: 3,
                         borderColor: Colors.red,

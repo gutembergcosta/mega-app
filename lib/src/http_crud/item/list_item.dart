@@ -16,6 +16,9 @@ class ListItem extends StatefulWidget {
 }
 
 class ListItemState extends State<ListItem> {
+
+  final itemService = ItemService();
+
   List<dynamic> _itemList = [];
   int userId = 0;
   bool _loading = true;
@@ -27,7 +30,7 @@ class ListItemState extends State<ListItem> {
     userId = await getUserId();
     _loading = true;
 
-    ApiResponse response = await listItems();
+    ApiResponse response = await itemService.list();
 
     if (response.error == null) {
       setState(() {
@@ -68,7 +71,7 @@ class ListItemState extends State<ListItem> {
                       foregroundColor: Colors.white,
                       backgroundColor: Colors.red),
                   onPressed: () async {
-                    var result = await deleteItem(id);
+                    var result = await itemService.delete(id);
                     if (result != '') {
                       getAllItems();
                       showSuccessSnackBar('Usuário excluído com sucesso');

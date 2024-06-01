@@ -107,7 +107,7 @@ class AddUserState extends State<AddUser> {
                             texto: userTextoController.text,
                           );
                           var result = await userService.addUser(user);
-                          Navigator.pop(context, result);
+                          if (context.mounted) Navigator.pop(context, result);
                           clearForm();
 
                           print("result: $result");
