@@ -11,52 +11,59 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-  double startLngPosition = -4324.99368;
+  MapController _mapctl = MapController();
+
+  double startLngPosition = -43.918978;
   List<LatLng> locais = [const LatLng(-19.92365, -4324.99300)];
 
+  LatLng inicialPosition = const LatLng(-19.920208, -43.921435);
+  LatLng inicialMarkerPosition = const LatLng(-19.920208, -43.921435);
+  LatLng novoLocal = const LatLng(-19.920208, -43.921435);
+
   List<LatLng> locais01 = [
-    LatLng(-19.92365, -43.9249368),
-    LatLng(-19.924463, -43.922331),
-    LatLng(-19.923546, -43.920617),
-    LatLng(-19.923847, -43.919262),
-    LatLng(-19.922728, -43.918978),
-    //LatLng(-19.922347, -43.920174),
-    //LatLng(-19.922070, -43.921504),
-    //LatLng(-19.921208, -43.921223),
-    //LatLng(-19.920208, -43.921435),
+    const LatLng(-19.92365, -43.9249368),
+    const LatLng(-19.924463, -43.922331),
+    const LatLng(-19.923546, -43.920617),
+    const LatLng(-19.923847, -43.919262),
+    const LatLng(-19.922728, -43.918978),
   ];
 
   void startAddingPosition(int intervalInSeconds) {
     Timer.periodic(Duration(seconds: intervalInSeconds), (timer) {
+      double newLngPosition = startLngPosition + 0.00137;
+      print("newLngPosition: $newLngPosition");
+      startLngPosition = newLngPosition;
+      var novoLocal = LatLng(-19.92365, newLngPosition);
+      print(novoLocal);
       setState(() {
-        double newLngPosition = startLngPosition + 0.00137;
-        print("newLngPosition: $newLngPosition");
-        startLngPosition = newLngPosition;
-        var novoLocal = LatLng(-19.92365, newLngPosition);
-        print(novoLocal);
-
         locais01.add(novoLocal);
+        _mapctl.move(novoLocal, 16);
+        inicialMarkerPosition = novoLocal;
+
       });
     });
   }
 
   void addingPosition() {
-      var novoLocal = LatLng(-19.920208, -43.921435);
-
-      locais.add(novoLocal);
-      //print(locais);
-
-      //array.add(matriz);
-      //array.add(DateTime.now().millisecondsSinceEpoch);
-      //print(array.length); // Imprime o array para ver os elementos adicionados
-      //print(array); // Imprime o array para ver os elementos adicionados
+    print('add position after timer');
+    Timer(Duration(seconds: 5), () {
+      setState(() {
+        locais01.add(novoLocal);
+        inicialPosition = novoLocal;
+        //print(locais);
+      });
+    });
+    //array.add(matriz);
+    //array.add(DateTime.now().millisecondsSinceEpoch);
+    //print(array.length); // Imprime o array para ver os elementos adicionados
+    //print(array); // Imprime o array para ver os elementos adicionados
   }
 
   @override
   void initState() {
     super.initState();
-    //startAddingPosition(2); // Adiciona um elemento ao array a cada 2 segundos
-    addingPosition();
+    startAddingPosition(7); // Adiciona um elemento ao array a cada 2 segundos
+    //addingPosition();
   }
 
   @override
@@ -70,9 +77,10 @@ class HomePageState extends State<HomePage> {
           children: [
             Flexible(
               child: FlutterMap(
-                options: const MapOptions(
-                  initialCenter: LatLng(-19.920208, -43.921435),
-                  initialZoom: 17,
+                mapController: _mapctl,
+                options: MapOptions(
+                  initialCenter: inicialPosition,
+                  initialZoom: 16,
                   /*
                   interactionOptions: InteractionOptions(
                       flags:  InteractiveFlag.doubleTapDragZoom |
@@ -93,9 +101,10 @@ class HomePageState extends State<HomePage> {
                   MarkerLayer(
                     markers: [
                       Marker(
-                        point: LatLng(-19.920208, -43.921435),
+                        point: inicialMarkerPosition,
                         width: 50,
                         height: 50,
+                        alignment: Alignment.topCenter,
                         child: Image.asset(
                           'assets/img/map-marker.png', // Replace with your image path
                         ),
