@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mega_app/src/http_crud/item/list_item.dart';
-import 'package:mega_app/src/http_crud/login_screen.dart';
+import 'package:mega_app/src/views/http_crud/item/list_item.dart';
+import 'package:mega_app/src/views/http_crud/login_screen.dart';
 import 'package:mega_app/src/services/auth_service.dart';
 
 class Loading extends StatefulWidget {

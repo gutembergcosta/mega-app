@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mega_app/src/auth/blocos/custom_text_field.dart';
+import 'package:mega_app/src/views/auth/blocos/custom_text_field.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:mega_app/src/config/custom_colors.dart';
 

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mega_app/src/auth/blocos/custom_text_field.dart';
-//import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:mega_app/src/views/auth/blocos/custom_text_field.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:mega_app/src/config/custom_colors.dart';
+
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -9,34 +10,57 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: CustomColors.customSwatchColor,
       body: Column(
         children: [
           Expanded(
-            child: Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  stops: [
-                    0.0,
-                    0.5,
-                  ],
-                  colors: [
-                    Color.fromRGBO(184, 207, 245, 1),
-                    Colors.white,
-                  ],
-                )
-              ),
-              child: Center(
-                child: Image.asset(
-                  'assets/img/logo.png', // Replace with your image path
-                  width: 240, // Adjust as needed
-                  height: 200, // Adjust as needed
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Nome da aplicação
+                Text.rich(
+                  TextSpan(
+                    style: const TextStyle(
+                      fontSize: 40
+                    ),
+                    children: [
+                      const TextSpan(
+                        text: 'Qui',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        )
+                      ),
+                      TextSpan(
+                        text: 'Tanda',
+                        style: TextStyle(
+                          color: CustomColors.customContrastColor,
+                        )
+                      ),
+                    ]
+                  ),
+                ), 
+                SizedBox(
+                  height: 25,
+                  child: DefaultTextStyle(
+                    style: const TextStyle(
+                      fontSize: 20
+                    ),
+                    child: AnimatedTextKit(
+                      repeatForever: true,
+                      pause: Duration.zero,
+                      animatedTexts: [
+                        FadeAnimatedText('Frutas'),
+                        FadeAnimatedText('Legumes'),
+                        FadeAnimatedText('Vegetais'),
+                      ], 
+                    ),
+                  ),
                 ),
-              ),
-            ),
+              ],
+            ) 
           ),
-          
+
           // formulario
           Container(
             padding: const EdgeInsets.only(
@@ -44,6 +68,10 @@ class LoginScreen extends StatelessWidget {
             ),
             decoration: const BoxDecoration(
               color: Colors.white,
+                borderRadius:
+                  BorderRadius.vertical(
+                top: Radius.circular(45),
+              ),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -62,13 +90,13 @@ class LoginScreen extends StatelessWidget {
                 
                 // Botão entrar
                 SizedBox(
-                  height: 40,
+                  height: 50,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18)
                       ),
-                      backgroundColor: CustomColors.azul,
+                      backgroundColor: CustomColors.customSwatchColor,
                       foregroundColor: Colors.white,
                     ),
                     onPressed: () {},
@@ -117,7 +145,7 @@ class LoginScreen extends StatelessWidget {
           
                 // Botão novo usuário
                 SizedBox(
-                  height: 40,
+                  height: 50,
                   child: OutlinedButton(
                     style: OutlinedButton.styleFrom( 
                       shape: RoundedRectangleBorder(
@@ -125,9 +153,9 @@ class LoginScreen extends StatelessWidget {
                       ) ,
                       side: BorderSide(
                         width: 2,
-                        color: CustomColors.azul
+                        color: CustomColors.customSwatchColor
                       ),
-                      foregroundColor: CustomColors.azul,
+                      foregroundColor: CustomColors.customSwatchColor,
                     ),
                     onPressed: () {},
                     child: const Text(

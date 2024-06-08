@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mega_app/src/dice_roll/gradient_container.dart';
+import 'package:mega_app/src/views/dice_roll/gradient_container.dart';
 
 const color01 = Color.fromARGB(255, 5, 36, 120);
 const color02 = Color.fromARGB(255, 97, 127, 209);

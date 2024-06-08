@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mega_app/src/dice_roll/styled_text.dart';
+import 'package:mega_app/src/views/dice_roll/styled_text.dart';
 
 var startAligment = Alignment.topLeft;
 var endAligment = Alignment.bottomRight;

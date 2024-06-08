@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mega_app/src/services/user_service.dart';
-import 'package:mega_app/src/sqlite_crud01/add_user.dart';
+import 'package:mega_app/src/views/sqlite_crud01/add_user.dart';
 import 'package:mega_app/models/user02.dart';
-import 'package:mega_app/src/sqlite_crud01/edit_user.dart';
-import 'package:mega_app/src/sqlite_crud01/view_user.dart';
+import 'package:mega_app/src/views/sqlite_crud01/edit_user.dart';
+import 'package:mega_app/src/views/sqlite_crud01/view_user.dart';
 
 class SQLiteScreen extends StatefulWidget {
   const SQLiteScreen({super.key});

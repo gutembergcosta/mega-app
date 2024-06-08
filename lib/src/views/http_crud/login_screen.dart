@@ -3,7 +3,7 @@ import 'package:mega_app/models/api_response.dart';
 import 'package:mega_app/models/auth.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:mega_app/src/config/custom_colors.dart';
-import 'package:mega_app/src/http_crud/item/list_item.dart';
+import 'package:mega_app/src/views/http_crud/item/list_item.dart';
 import 'package:mega_app/src/services/auth_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

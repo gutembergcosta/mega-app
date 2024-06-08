@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mega_app/models/api_response.dart';
 import 'package:mega_app/models/item.dart';
-import 'package:mega_app/src/http_crud/item/form_item.dart';
+import 'package:mega_app/src/views/http_crud/item/form_item.dart';
 import 'package:mega_app/src/services/auth_service.dart';
 import 'package:mega_app/src/services/item_service.dart';
 import 'package:mega_app/src/services/user_service.dart';
 import 'package:mega_app/models/user02.dart';
-import 'package:mega_app/src/http_crud/item/view_item.dart';
+import 'package:mega_app/src/views/http_crud/item/view_item.dart';
 
 class ListItem extends StatefulWidget {
   const ListItem({super.key});

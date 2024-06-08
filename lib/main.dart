@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-//import 'package:mega_app/src/sqlite_crud01/home_page.dart';
+import 'package:mega_app/src/views/sqlite_crud01/home_sql_lite.dart';
 //import 'package:mega_app/src/http_crud/login_screen.dart';
 //import 'package:mega_app/src/http_crud/loading.dart';
-import 'package:mega_app/src/flutter_map/home_page.dart';
+//import 'package:mega_app/src/views/flutter_map/home_page.dart';
 //import 'package:mega_app/src/quitanda/login_screen.dart';
 //import 'package:mega_app/src/crud_sqlite01/todo_list.dart';
 //import 'package:mega_app/src/rondanet/login_screen.dart';

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:mega_app/models/api_response.dart';
 import 'package:mega_app/models/auth.dart';
 import 'package:http/http.dart' as http;
-import 'package:mega_app/src/http_crud/constant.dart';
+import 'package:mega_app/src/views/http_crud/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<ApiResponse> login(Auth auth) async {

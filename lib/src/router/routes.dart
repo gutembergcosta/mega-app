@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mega_app/src/local_notifications/home_notifications.dart';
-import 'package:mega_app/src/local_notifications/notificacao_page.dart';
+import 'package:mega_app/src/views/local_notifications/home_notifications.dart';
+import 'package:mega_app/src/views/local_notifications/notificacao_page.dart';
 
 class Routes {
   static Map<String, Widget Function(BuildContext)> list =
