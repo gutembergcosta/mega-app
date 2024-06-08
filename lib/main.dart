@@ -12,9 +12,8 @@ import 'package:mega_app/src/flutter_map/home_page.dart';
 //import 'package:mega_app/src/dice_roll/dice_roll.dart';
 //import 'package:mega_app/src/flutter_map/add_to_array.dart';
 
-
-
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
 
   sqfliteFfiInit();
   databaseFactory = databaseFactoryFfi;
@@ -29,22 +28,22 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Mega App',
-      theme: ThemeData(
-        primarySwatch: Colors.pink,
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.blue,
-          foregroundColor: Colors.white,
-        ),
-        floatingActionButtonTheme:  FloatingActionButtonThemeData(
-          backgroundColor: Colors.blue,
-          foregroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50.0), // Adjust the radius as needed
-        ),
-        )
-      ),
-      debugShowCheckedModeBanner: false,
-      home: const HomePage());
+        title: 'Mega App',
+        theme: ThemeData(
+            primarySwatch: Colors.pink,
+            appBarTheme: const AppBarTheme(
+              backgroundColor: Colors.blue,
+              foregroundColor: Colors.white,
+            ),
+            floatingActionButtonTheme: FloatingActionButtonThemeData(
+              backgroundColor: Colors.blue,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius:
+                    BorderRadius.circular(50.0), // Adjust the radius as needed
+              ),
+            )),
+        debugShowCheckedModeBanner: false,
+        home: const HomePage());
   }
 }

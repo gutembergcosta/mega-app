@@ -11,12 +11,12 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-  MapController _mapctl = MapController();
+  final MapController _mapctl = MapController();
 
   double startLngPosition = -43.918978;
-  List<LatLng> locais = [const LatLng(-19.92365, -4324.99300)];
 
-  LatLng inicialPosition = const LatLng(-19.920208, -43.921435);
+  List<LatLng> locais = [const LatLng(-19.92365, -4324.99300)];
+  LatLng inicialPosition = const LatLng(-19.917275, -43.933389); /*  LatLng(-19.920208, -43.921435); */
   LatLng inicialMarkerPosition = const LatLng(-19.920208, -43.921435);
   LatLng novoLocal = const LatLng(-19.920208, -43.921435);
 
@@ -28,7 +28,31 @@ class HomePageState extends State<HomePage> {
     const LatLng(-19.922728, -43.918978),
   ];
 
-  void startAddingPosition(int intervalInSeconds) {
+  int posicaoMatriz = 0;
+  List<LatLng> locaisBH = [const LatLng(-19.917275, -43.933389)];
+  LatLng inicialPositionBH = const LatLng(-19.917275, -43.933389);
+  LatLng inicialMarkerPositionBH = const LatLng(-19.917275, -43.933389);
+  LatLng novoLocalBH = const LatLng(-19.917275, -43.933389);
+
+  List<LatLng> posicoeslocaisBH = [
+    const LatLng(-19.917085, -43.934715),
+    const LatLng(-19.917217, -43.935240),
+    const LatLng(-19.917913, -43.936485),
+    const LatLng(-19.918616, -43.937855),
+    const LatLng(-19.919293, -43.938667),
+    const LatLng(-19.920327, -43.938967),
+    const LatLng(-19.921534, -43.939313),
+    const LatLng(-19.921693, -43.940018),
+    const LatLng(-19.921925, -43.940766),
+    const LatLng(-19.922429, -43.940921),
+    const LatLng(-19.922237, -43.942028),
+    const LatLng(-19.922393, -43.942881),
+    const LatLng(-19.921959, -43.943538),
+    const LatLng(-19.921842, -43.943509),
+    const LatLng(-19.921050, -43.946123),
+  ];
+
+  void startAddPosition(int intervalInSeconds) {
     Timer.periodic(Duration(seconds: intervalInSeconds), (timer) {
       double newLngPosition = startLngPosition + 0.00137;
       print("newLngPosition: $newLngPosition");
@@ -39,7 +63,21 @@ class HomePageState extends State<HomePage> {
         locais01.add(novoLocal);
         _mapctl.move(novoLocal, 16);
         inicialMarkerPosition = novoLocal;
+      });
+    });
+  }
 
+  void startAddPositionBH(int intervalInSeconds) {
+    Timer.periodic(Duration(seconds: intervalInSeconds), (timer) {
+      print("posicao $posicaoMatriz");
+      if (posicaoMatriz > posicoeslocaisBH.length) return;
+      LatLng newPositionMapa = posicoeslocaisBH[posicaoMatriz];
+      print("newPositionMapa: $newPositionMapa");
+      setState(() {
+        locaisBH.add(newPositionMapa);
+        _mapctl.move(newPositionMapa, 16);
+        inicialMarkerPosition = newPositionMapa;
+        ++posicaoMatriz;
       });
     });
   }
@@ -62,7 +100,7 @@ class HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    startAddingPosition(7); // Adiciona um elemento ao array a cada 2 segundos
+    startAddPositionBH(5); // Adiciona um elemento ao array a cada 2 segundos
     //addingPosition();
   }
 
@@ -94,8 +132,7 @@ class HomePageState extends State<HomePage> {
                 ),
                 children: [
                   TileLayer(
-                    urlTemplate:
-                        'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                    urlTemplate:'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                     userAgentPackageName: 'com.example.app',
                   ),
                   MarkerLayer(
@@ -114,7 +151,7 @@ class HomePageState extends State<HomePage> {
                   PolylineLayer(
                     polylines: [
                       Polyline(
-                        points: locais01,
+                        points: locaisBH,
                         color: Colors.red,
                         borderStrokeWidth: 3,
                         borderColor: Colors.red,
