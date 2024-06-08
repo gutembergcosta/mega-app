@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:mega_app/src/services/user_service.dart';
-import 'package:mega_app/src/views/sqlite_crud01/add_user.dart';
+import 'package:mega_app/src/views/sqlite_crud/add_user.dart';
 import 'package:mega_app/models/user02.dart';
-import 'package:mega_app/src/views/sqlite_crud01/edit_user.dart';
-import 'package:mega_app/src/views/sqlite_crud01/view_user.dart';
+import 'package:mega_app/src/views/sqlite_crud/_edit_user.dart';
+import 'package:mega_app/src/views/sqlite_crud/view_user.dart';
 
-class SQLiteScreen extends StatefulWidget {
-  const SQLiteScreen({super.key});
+class HomeSqLitePage extends StatefulWidget {
+  const HomeSqLitePage({super.key});
 
   @override
-  State<SQLiteScreen> createState() => ListUserState();
+  State<HomeSqLitePage> createState() => HomeSqLitePageState();
 }
 
-class ListUserState extends State<SQLiteScreen> {
+class HomeSqLitePageState extends State<HomeSqLitePage> {
   late List<User02> userList = <User02>[];
   final userService = UserService();
 
@@ -47,44 +47,40 @@ class ListUserState extends State<SQLiteScreen> {
 
   deleteFormDialog(BuildContext context, userId) {
     return showDialog(
-      context: context,
-      builder: (param) {
-        return AlertDialog(
-          shape: const RoundedRectangleBorder(borderRadius: 
-                BorderRadius.all(Radius.circular(2))),
-          title: const Text(
-            'Deseja excluir?',
-            style: TextStyle(color: Colors.black, fontSize: 20),
-          ),
-          actions: [
-            TextButton(
-              style: TextButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: Colors.red),
-              onPressed: () async {
-                var result = await userService.deleteUser(userId);
-                if (result != null) {
-                  getAllUserDetails();
-                  showSuccessSnackBar(
-                    'Usuário excluído com sucesso'
-                  );
-                }
-              },
-              child: const Text('Deletar')
+        context: context,
+        builder: (param) {
+          return AlertDialog(
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(2))),
+            title: const Text(
+              'Deseja excluir?',
+              style: TextStyle(color: Colors.black, fontSize: 20),
             ),
-            TextButton(
-              style: TextButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: Colors.lightBlue.shade900),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('Cancelar')
-            ),
-          ],
-        );
-      }
-    );
+            actions: [
+              TextButton(
+                  style: TextButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.red),
+                  onPressed: () async {
+                    var result = await userService.deleteUser(userId);
+                    if (result != null) {
+                      getAllUserDetails();
+                      showSuccessSnackBar('Usuário excluído com sucesso');
+                    }
+                    if (context.mounted) Navigator.pop(context);
+                  },
+                  child: const Text('Deletar')),
+              TextButton(
+                  style: TextButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.lightBlue.shade900),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Cancelar')),
+            ],
+          );
+        });
   }
 
   @override

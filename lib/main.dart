@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-import 'package:mega_app/src/views/sqlite_crud01/home_sql_lite.dart';
+import 'package:mega_app/src/views/sqlite_crud/home_sqlite_page.dart';
 //import 'package:mega_app/src/http_crud/login_screen.dart';
 //import 'package:mega_app/src/http_crud/loading.dart';
 //import 'package:mega_app/src/views/flutter_map/home_page.dart';
@@ -44,6 +44,6 @@ class MyApp extends StatelessWidget {
               ),
             )),
         debugShowCheckedModeBanner: false,
-        home: const HomePage());
+        home: const HomeSqLitePage());
   }
 }
