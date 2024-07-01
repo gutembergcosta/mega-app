@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mega_app/src/services/user_service.dart';
-import 'package:mega_app/src/views/sqlite_crud/add_user.dart';
-import 'package:mega_app/models/user02.dart';
-import 'package:mega_app/src/views/sqlite_crud/_edit_user.dart';
+//import 'package:mega_app/src/views/sqlite_crud/add_user.dart';
+import 'package:mega_app/models/user_sqlite.dart';
+import 'package:mega_app/src/views/sqlite_crud/form_user_page.dart';
 import 'package:mega_app/src/views/sqlite_crud/view_user.dart';
 
 class HomeSqLitePage extends StatefulWidget {
@@ -13,15 +13,15 @@ class HomeSqLitePage extends StatefulWidget {
 }
 
 class HomeSqLitePageState extends State<HomeSqLitePage> {
-  late List<User02> userList = <User02>[];
+  late List<User> userList = <User>[];
   final userService = UserService();
 
   getAllUserDetails() async {
     var users = await userService.listUsers();
-    userList = <User02>[];
+    userList = <User>[];
     users.forEach((user) {
       setState(() {
-        var userModel = User02();
+        var userModel = User();
         userModel.id = user['id'];
         userModel.nome = user['nome'];
         userModel.info = user['info'];
@@ -117,7 +117,7 @@ class HomeSqLitePageState extends State<HomeSqLitePage> {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  EditUser(user: userList[index]),
+                                  FormUserPage(user: userList[index]),
                             ),
                           ).then((data) {
                             if (data != null) {
@@ -148,7 +148,7 @@ class HomeSqLitePageState extends State<HomeSqLitePage> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const AddUser()),
+            MaterialPageRoute(builder: (context) => const FormUserPage()),
           ).then((data) {
             if (data != null) {
               getAllUserDetails();

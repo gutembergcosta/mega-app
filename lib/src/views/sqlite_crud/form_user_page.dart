@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mega_app/models/user02.dart';
+import 'package:mega_app/models/user_sqlite.dart';
 import 'package:mega_app/src/services/user_service.dart';
 
 var userNomeController = TextEditingController();
@@ -7,15 +7,16 @@ var userInfoController = TextEditingController();
 var userTextoController = TextEditingController();
 var userService = UserService();
 
-class EditUser extends StatefulWidget {
-  final User02 user;
-  const EditUser({super.key, required this.user});
+class FormUserPage extends StatefulWidget {
+  final User? user;
+  const FormUserPage({super.key, this.user});
 
   @override
-  State<EditUser> createState() => EditUserState();
+  State<FormUserPage> createState() => FormUserPageState();
 }
 
-class EditUserState extends State<EditUser> {
+class FormUserPageState extends State<FormUserPage> {
+
   bool validateNome = false;
   bool validateInfo = false;
   bool validateTexto = false;
@@ -23,9 +24,9 @@ class EditUserState extends State<EditUser> {
   @override
   void initState() {
     setState(() {
-      userNomeController.text = widget.user.nome ?? '';
-      userInfoController.text = widget.user.info ?? '';
-      userTextoController.text = widget.user.texto ?? '';
+      userNomeController.text = widget.user?.nome ?? '';
+      userInfoController.text = widget.user?.info ?? '';
+      userTextoController.text = widget.user?.texto ?? '';
     });
     super.initState();
   }
@@ -112,13 +113,13 @@ class EditUserState extends State<EditUser> {
                         if (validateNome == false &&
                             validateInfo == false &&
                             validateTexto == false) {
-                          final User02 user = User02(
-                            id: widget.user.id,
+                          final User user = User(
+                            id: widget.user?.id,
                             nome: userNomeController.text,
                             info: userInfoController.text,
                             texto: userTextoController.text,
                           );
-                          var result = await userService.updateUser(user);
+                          var result =  (widget.user?.id != null) ? userService.updateUser(user) : userService.addUser(user) ;
                           if (context.mounted) Navigator.pop(context, result);
                           clearForm();
 

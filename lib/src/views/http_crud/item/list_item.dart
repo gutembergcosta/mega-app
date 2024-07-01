@@ -5,7 +5,6 @@ import 'package:mega_app/src/views/http_crud/item/form_item.dart';
 import 'package:mega_app/src/services/auth_service.dart';
 import 'package:mega_app/src/services/item_service.dart';
 import 'package:mega_app/src/services/user_service.dart';
-import 'package:mega_app/models/user02.dart';
 import 'package:mega_app/src/views/http_crud/item/view_item.dart';
 
 class ListItem extends StatefulWidget {
@@ -23,7 +22,6 @@ class ListItemState extends State<ListItem> {
   int userId = 0;
   bool _loading = true;
 
-  late List<User02> userList = <User02>[];
   final userService = UserService();
 
   Future<void> getAllItems() async {

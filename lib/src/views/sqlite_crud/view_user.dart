@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mega_app/models/user02.dart';
+import 'package:mega_app/models/user_sqlite.dart';
 import 'package:mega_app/src/services/user_service.dart';
 
 var userNomeController = TextEditingController();
@@ -8,7 +8,7 @@ var userTextoController = TextEditingController();
 var userService = UserService();
 
 class ViewUser extends StatefulWidget {
-  final User02 user;
+  final User user;
   const ViewUser({super.key, required this.user});
 
   @override

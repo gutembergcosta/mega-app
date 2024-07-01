@@ -1,4 +1,4 @@
-import 'package:mega_app/models/user02.dart';
+import 'package:mega_app/models/user_sqlite.dart';
 import 'package:mega_app/src/db_helper/repository.dart';
 
 class UserService {
@@ -8,7 +8,7 @@ class UserService {
     repository = Repository();
   }
 
-  addUser(User02 user) async {
+  addUser(User user) async {
     return await repository.insertData('users', user.toMap());
   }
 
@@ -17,7 +17,7 @@ class UserService {
   }
 
   //Edit User
-  updateUser(User02 user) async {
+  updateUser(User user) async {
     return await repository.updateData('users', user.toMap());
   }
 
